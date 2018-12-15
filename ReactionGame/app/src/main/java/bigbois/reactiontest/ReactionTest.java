@@ -4,29 +4,12 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SantaListener implements Animation.AnimationListener {
-@Override
-public void onAnimationStart(Animation animation) {
-
-        }
-
-@Override
-public void onAnimationEnd(Animation animation) {
-        onAnimationCompleted();
-        }
-
-@Override
-public void onAnimationRepeat(Animation animation) {
-
-        }
-}
 
 public class ReactionTest extends AppCompatActivity {
 
@@ -56,20 +39,22 @@ public class ReactionTest extends AppCompatActivity {
         rotSanta.setDuration(1000);
         rotSanta.setFillAfter(true);
 
-        SantaListener santaListener = new SantaListener();
+        SantaListener santaListener = new SantaListener(this);
         rotSanta.setAnimationListener(santaListener);
-
         santaImg.startAnimation(rotSanta);
+
     }
 
     public void onAnimationCompleted() throws InterruptedException
     {
+        System.out.println("onAnimationCompletedStart");
         setContentView(R.layout.run_reaction_game);
+        Thread.sleep(3000);
         hitSanta = findViewById(R.id.instructionTxt);
-        Thread.sleep(1000);
         hitSanta.setVisibility(View.VISIBLE);
         Thread.sleep(3000);
         setContentView(R.layout.start_reaction_game);
+        System.out.println("onAnimationCompletedEnd");
     }
 }
 
