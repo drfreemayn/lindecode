@@ -4,11 +4,11 @@ import android.view.animation.Animation;
 
 public class SantaListener implements Animation.AnimationListener {
 
-    ReactionTest s_activity;
+    ReactionTest m_activity;
 
     public SantaListener(ReactionTest activity)
     {
-        s_activity = activity;
+        m_activity = activity;
     }
 
     @Override
@@ -18,9 +18,8 @@ public class SantaListener implements Animation.AnimationListener {
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        System.out.println("onAnimationEnd");
         try {
-            s_activity.onAnimationCompleted();
+            m_activity.onAnimationCompleted();
         }
         catch  (Exception e){
         }

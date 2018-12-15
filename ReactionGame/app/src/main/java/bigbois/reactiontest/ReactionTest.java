@@ -2,8 +2,10 @@ package bigbois.reactiontest;
 
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -11,13 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 public class ReactionTest extends AppCompatActivity {
 
     EditText playerName;
     Button startButton;
     ImageView santaImg;
     TextView hitSanta;
+    RandomSanta m_randSanta;
+    String namePlayer;
+    boolean m_playAgain;
+    int m_width;
+    int m_height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +35,17 @@ public class ReactionTest extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
 
         santaImg = findViewById(R.id.santaImg);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        m_width = display.getWidth() / 2;
+        m_height = display.getHeight() / 2;
+        m_playAgain = false;
     }
 
     public void onStartGameClick(View v)
     {
+        playerName = findViewById(R.id.playerText);
+        namePlayer = playerName.getText().toString();
         MediaPlayer santaSound = MediaPlayer.create(ReactionTest.this, R.raw.santa_sound);
         santaSound.start();
         RotateAnimation rotSanta = new RotateAnimation(santaImg.getRotation(), santaImg.getRotation() + 360, santaImg.getWidth()/2, santaImg.getHeight()/2);
@@ -44,21 +57,42 @@ public class ReactionTest extends AppCompatActivity {
 
     }
 
-    public void onAnimationCompleted()
+    public void onAnimationCompleted() throws InterruptedException
     {
-        System.out.println("onAnimationCompletedStart");
         setContentView(R.layout.run_reaction_game);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hitSanta = findViewById(R.id.instructionTxt);
-                santaImg = findViewById(R.id.santaImg);
-                hitSanta.setVisibility(View.VISIBLE);
-                santaImg.setVisibility(View.VISIBLE);
-            }
-        }, 3000);
+        hitSanta = findViewById(R.id.instructionTxt);
+        santaImg = findViewById(R.id.santaImg);
+
+        SantaTask santaTask1 = new SantaTask(hitSanta, 3000, true);
+        SantaTask santaTask2 = new SantaTask(hitSanta, 5000, false);
+
+        m_randSanta = new RandomSanta(santaImg);
+        m_randSanta.start(7000, m_width, m_height);
     }
 
+    public void onPlaySantaAgain(View v)
+    {
+        if (m_playAgain) {
+            System.out.println("play again");
+            hitSanta.setVisibility(View.INVISIBLE);
+            m_randSanta = new RandomSanta(santaImg);
+            m_randSanta.start(7000, m_width, m_height);
+            m_playAgain = false;
+        }
+    }
+
+    public void hitTheSanta(View v){
+        hitSanta = findViewById(R.id.instructionTxt);
+        santaImg = findViewById(R.id.santaImg);
+
+        santaImg.setVisibility(View.INVISIBLE);
+        long reactionTime = m_randSanta.stop();
+        String time = namePlayer + ", your reaction time is " + String.valueOf(reactionTime) + " milliseconds!";
+        hitSanta.setText(time);
+        hitSanta.setTextSize(16);
+        hitSanta.setVisibility(View.VISIBLE);
+        m_playAgain = true;
+    }
 }
 
 
