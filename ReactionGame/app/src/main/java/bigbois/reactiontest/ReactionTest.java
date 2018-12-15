@@ -63,11 +63,11 @@ public class ReactionTest extends AppCompatActivity {
         hitSanta = findViewById(R.id.instructionTxt);
         santaImg = findViewById(R.id.santaImg);
 
-        SantaTask santaTask1 = new SantaTask(hitSanta, 3000, true);
-        SantaTask santaTask2 = new SantaTask(hitSanta, 5000, false);
+        SantaTask santaTask1 = new SantaTask(hitSanta, 1500, true);
+        SantaTask santaTask2 = new SantaTask(hitSanta, 3500, false);
 
         m_randSanta = new RandomSanta(santaImg);
-        m_randSanta.start(7000, m_width, m_height);
+        m_randSanta.start(5000, m_width, m_height);
     }
 
     public void onPlaySantaAgain(View v)
@@ -76,7 +76,7 @@ public class ReactionTest extends AppCompatActivity {
             System.out.println("play again");
             hitSanta.setVisibility(View.INVISIBLE);
             m_randSanta = new RandomSanta(santaImg);
-            m_randSanta.start(7000, m_width, m_height);
+            m_randSanta.start(500, m_width, m_height);
             m_playAgain = false;
         }
     }
