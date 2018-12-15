@@ -1,4 +1,4 @@
-package com.example.bigboisproduction.reactiongame;
+package bigbois.reactiontest;
 
 import org.junit.Test;
 

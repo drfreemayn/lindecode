@@ -1,4 +1,4 @@
-package com.example.bigboisproduction.reactiongame;
+package bigbois.reactiontest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -18,9 +18,8 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
-        // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.bigboisproduction.reactiongame", appContext.getPackageName());
+        assertEquals("bigbois.reactiontest", appContext.getPackageName());
     }
 }
