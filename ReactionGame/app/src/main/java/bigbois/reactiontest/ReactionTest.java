@@ -1,8 +1,6 @@
 package bigbois.reactiontest;
 
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -17,29 +15,38 @@ public class ReactionTest extends AppCompatActivity {
 
     EditText playerName;
     Button startButton;
+    Button restartButton;
+    Button stopButton;
     ImageView santaImg;
     TextView hitSanta;
     RandomSanta m_randSanta;
     String namePlayer;
-    boolean m_playAgain;
+    int m_playCounter;
     int m_width;
     int m_height;
+    long m_totalReactionTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.start_reaction_game);
 
         playerName = findViewById(R.id.playerText);
-
         startButton = findViewById(R.id.startButton);
-
         santaImg = findViewById(R.id.santaImg);
 
         Display display = getWindowManager().getDefaultDisplay();
         m_width = display.getWidth() / 2;
         m_height = display.getHeight() / 2;
-        m_playAgain = false;
+        m_totalReactionTime = 0;
+        m_playCounter = 0;
+    }
+
+    public void goToStartPage(View v)
+    {
+        setContentView(R.layout.start_reaction_game);
+        santaImg = findViewById(R.id.santaImg);
     }
 
     public void onStartGameClick(View v)
@@ -70,15 +77,35 @@ public class ReactionTest extends AppCompatActivity {
         m_randSanta.start(5000, m_width, m_height);
     }
 
-    public void onPlaySantaAgain(View v)
+    public void playSantaAgain(View v)
     {
-        if (m_playAgain) {
-            System.out.println("play again");
-            hitSanta.setVisibility(View.INVISIBLE);
-            m_randSanta = new RandomSanta(santaImg);
-            m_randSanta.start(500, m_width, m_height);
-            m_playAgain = false;
-        }
+        restartButton = findViewById(R.id.restartButton);
+        restartButton.setVisibility(View.INVISIBLE);
+
+        stopButton = findViewById(R.id.stopButton);
+        stopButton.setVisibility(View.INVISIBLE);
+
+        hitSanta.setVisibility(View.INVISIBLE);
+        m_randSanta = new RandomSanta(santaImg);
+        m_randSanta.start(500, m_width, m_height);
+    }
+
+    public void showStatistics()
+    {
+        float avgReactionTime = ((float) m_totalReactionTime) / m_playCounter;
+        String time = namePlayer + ", your average reaction time is " + String.valueOf(avgReactionTime) + " milliseconds!";
+        hitSanta.setText(time);
+        hitSanta.setTextSize(16);
+        hitSanta.setVisibility(View.VISIBLE);
+
+        restartButton = findViewById(R.id.restartButton);
+        restartButton.setVisibility(View.VISIBLE);
+
+        stopButton = findViewById(R.id.stopButton);
+        stopButton.setVisibility(View.VISIBLE);
+
+        m_playCounter = 0;
+        m_totalReactionTime = 0;
     }
 
     public void hitTheSanta(View v){
@@ -86,12 +113,17 @@ public class ReactionTest extends AppCompatActivity {
         santaImg = findViewById(R.id.santaImg);
 
         santaImg.setVisibility(View.INVISIBLE);
-        long reactionTime = m_randSanta.stop();
-        String time = namePlayer + ", your reaction time is " + String.valueOf(reactionTime) + " milliseconds!";
-        hitSanta.setText(time);
-        hitSanta.setTextSize(16);
-        hitSanta.setVisibility(View.VISIBLE);
-        m_playAgain = true;
+        m_totalReactionTime += m_randSanta.stop();
+        m_playCounter++;
+
+        final int MAX_SANTA_COUNT = 3;
+        if (m_playCounter < MAX_SANTA_COUNT) {
+            playSantaAgain(v);
+        }
+        else
+        {
+            showStatistics();
+        }
     }
 }
 
