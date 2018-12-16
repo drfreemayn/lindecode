@@ -5,4 +5,5 @@
     <string name="enter_player_string_app_name">Enter player name</string>
     <string name="hit_the_santa">Hit the Santa!</string>
     <string name="restart">Restart?</string>
+    <string name="scoreboard">Scoreboard</string>
 </resources>
