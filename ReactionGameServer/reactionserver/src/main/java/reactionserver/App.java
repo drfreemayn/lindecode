@@ -24,4 +24,5 @@ public class App
         app.post("/scoreboard/set_score/:name", ctx -> { System.out.println(ctx.pathParam("name"));});
         m_scoreboard.setScore("apa", 120.0);
         app.get("/scoreboard/get_score/:name", ctx -> { ctx.result(m_scoreboard.getScore(ctx.pathParam("name")).toString()); } );
+    }
 }
