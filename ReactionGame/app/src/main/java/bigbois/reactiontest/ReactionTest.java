@@ -14,16 +14,12 @@ import android.widget.TextView;
 public class ReactionTest extends AppCompatActivity {
 
     EditText playerName;
-    Button startButton;
-    Button restartButton;
-    Button stopButton;
+    Button startButton, restartButton, stopButton;
     ImageView santaImg;
     TextView hitSanta;
     RandomSanta m_randSanta;
     String namePlayer;
-    int m_playCounter;
-    int m_width;
-    int m_height;
+    int m_playCounter, m_width, m_height;
     long m_totalReactionTime;
 
     @Override
@@ -53,25 +49,26 @@ public class ReactionTest extends AppCompatActivity {
     {
         playerName = findViewById(R.id.playerText);
         namePlayer = playerName.getText().toString();
+
         MediaPlayer santaSound = MediaPlayer.create(ReactionTest.this, R.raw.santa_sound);
         santaSound.start();
+
         RotateAnimation rotSanta = new RotateAnimation(santaImg.getRotation(), santaImg.getRotation() + 360, santaImg.getWidth()/2, santaImg.getHeight()/2);
         rotSanta.setDuration(1000);
         rotSanta.setFillAfter(true);
         SantaListener santaListener = new SantaListener(this);
         rotSanta.setAnimationListener(santaListener);
         santaImg.startAnimation(rotSanta);
-
     }
 
-    public void onAnimationCompleted() throws InterruptedException
+    public void onAnimationCompleted()
     {
         setContentView(R.layout.run_reaction_game);
         hitSanta = findViewById(R.id.instructionTxt);
         santaImg = findViewById(R.id.santaImg);
 
-        SantaTask santaTask1 = new SantaTask(hitSanta, 1500, true);
-        SantaTask santaTask2 = new SantaTask(hitSanta, 3500, false);
+        new SantaTask(hitSanta, 1500, true);
+        new SantaTask(hitSanta, 3500, false);
 
         m_randSanta = new RandomSanta(santaImg);
         m_randSanta.start(5000, m_width, m_height);
