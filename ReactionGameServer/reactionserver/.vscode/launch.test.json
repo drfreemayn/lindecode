@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "reactionserver",
+                "projectName": "reactionserver",
+                "workingDirectory": "c:\\fredrikw\\git\\lindecode\\ReactionGameServer\\reactionserver",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "reactionserver",
+                "projectName": "reactionserver",
+                "workingDirectory": "c:\\fredrikw\\git\\lindecode\\ReactionGameServer\\reactionserver",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
