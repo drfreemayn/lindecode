@@ -5,24 +5,24 @@ import java.util.HashMap;
 
 public class Scoreboard 
 {
-    private static Map<String, Double> m_scoreboard;
+    private static HashMap<String, String> m_scoreboard;
 
     public Scoreboard()
     {
-        m_scoreboard = new HashMap<String , Double>();
+        m_scoreboard = new HashMap<>();
     }
 
-    public void setScore(String name, Double score)
+    public void setScore(String name, String string)
     {
-        m_scoreboard.put(name, score);
+        m_scoreboard.put(name, string);
     }
 
-    public Double getScore(String name)
+    public String getScore(String name)
     {
         return m_scoreboard.get(name);
     }
 
-    public Map<String, Double> getScoreboard()
+    public HashMap<String, String> getScoreboard()
     {
         return m_scoreboard;
     }
