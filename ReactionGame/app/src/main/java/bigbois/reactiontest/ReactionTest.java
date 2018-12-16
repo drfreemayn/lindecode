@@ -9,14 +9,16 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ReactionTest extends AppCompatActivity {
 
     EditText playerName;
-    Button startButton, restartButton, stopButton;
+    Button startButton, restartButton, stopButton, scoreboardButton;
     ImageView santaImg;
     TextView hitSanta;
+    LinearLayout entriesLayout;
     RandomSanta m_randSanta;
     String namePlayer;
     int m_playCounter, m_width, m_height;
@@ -43,6 +45,26 @@ public class ReactionTest extends AppCompatActivity {
     {
         setContentView(R.layout.start_reaction_game);
         santaImg = findViewById(R.id.santaImg);
+    }
+
+    public void goToScoreboard(View v)
+    {
+        setContentView(R.layout.scoreboard);
+
+        entriesLayout = findViewById(R.id.entriesLayout);
+
+        int size = 5; // total number of TextViews to add
+        TextView[] tv = new TextView[size];
+        for (int i = 0; i < size; i++)
+        {
+            TextView temp = new TextView(this);
+            temp.setTextSize(20);
+            temp.setTextColor(0xFF288F11);
+            String entry = String.valueOf(i +1) + ". " + "Sniddan" + " : " + String.valueOf(123) + " ms";
+            temp.setText(entry);
+            entriesLayout.addView(temp);
+            tv[i] = temp;
+        }
     }
 
     public void onStartGameClick(View v)
@@ -82,6 +104,9 @@ public class ReactionTest extends AppCompatActivity {
         stopButton = findViewById(R.id.stopButton);
         stopButton.setVisibility(View.INVISIBLE);
 
+        scoreboardButton = findViewById(R.id.scoreboardButton);
+        scoreboardButton.setVisibility(View.INVISIBLE);
+
         hitSanta.setVisibility(View.INVISIBLE);
         m_randSanta = new RandomSanta(santaImg);
         m_randSanta.start(500, m_width, m_height);
@@ -100,6 +125,9 @@ public class ReactionTest extends AppCompatActivity {
 
         stopButton = findViewById(R.id.stopButton);
         stopButton.setVisibility(View.VISIBLE);
+
+        scoreboardButton = findViewById(R.id.scoreboardButton);
+        scoreboardButton.setVisibility(View.VISIBLE);
 
         m_playCounter = 0;
         m_totalReactionTime = 0;
