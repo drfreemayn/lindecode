@@ -1,6 +1,7 @@
 package bigbois.reactiontest;
 
 import android.media.MediaPlayer;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -29,7 +30,11 @@ public class ReactionTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.start_reaction_game);
-
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         playerName = findViewById(R.id.playerText);
         startButton = findViewById(R.id.startButton);
         santaImg = findViewById(R.id.santaImg);
@@ -52,6 +57,8 @@ public class ReactionTest extends AppCompatActivity {
         setContentView(R.layout.scoreboard);
 
         entriesLayout = findViewById(R.id.entriesLayout);
+
+
 
         int size = 5; // total number of TextViews to add
         TextView[] tv = new TextView[size];
@@ -147,6 +154,7 @@ public class ReactionTest extends AppCompatActivity {
         }
         else
         {
+            new ResultPoster(namePlayer, String.valueOf(m_playCounter));
             showStatistics();
         }
     }

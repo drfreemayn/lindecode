@@ -12,31 +12,29 @@ import java.util.HashMap;
 
 public class ResultPoster {
 
-    public ResultPoster(String name, Float value) {
-
+    public ResultPoster(String name, String score) {
         // Create a hash map with input.
         HashMap<String, String> postDataParams = new HashMap<>();
         postDataParams.put("name", name);
-        postDataParams.put("score", String.valueOf(value));
-
-        String urlString = "http://localhost:7000/scoreboard/setscore";
+        postDataParams.put("score", String.valueOf(score));
+        String urlString = "http:/localhost/scoreboard/setscore";
         OutputStream out = null;
         try {
             URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
             out = new BufferedOutputStream(urlConnection.getOutputStream());
-
+            System.out.println("URL3 " + out);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
             writer.flush();
             writer.close();
             out.close();
-
-            System.out.println(getPostDataString(postDataParams));
-
             urlConnection.connect();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -53,7 +51,6 @@ public class ResultPoster {
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
-
         return result.toString();
     }
 
