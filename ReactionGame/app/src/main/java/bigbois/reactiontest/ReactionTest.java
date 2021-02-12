@@ -13,13 +13,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ReactionTest extends AppCompatActivity {
 
-    HashMap<String, String> highscore = new HashMap<>();
+    Map<String, String> highscore = new TreeMap<>();
     Player player;
     EditText playerName;
     Button startButton, restartButton, stopButton, scoreboardButton;
@@ -72,13 +75,15 @@ public class ReactionTest extends AppCompatActivity {
             TextView temp = new TextView(this);
             temp.setTextSize(20);
             temp.setTextColor(0xFF288F11);
-            String entry = String.valueOf(i +1) + ". " + player.getKey() + " : " + player.getValue() + " ms";
+            String entry = String.valueOf(i +1) + ". " + player.getValue() + " : " + player.getKey()  + " ms";
             temp.setText(entry);
             entriesLayout.addView(temp);
             tv[i] = temp;
+            i++;
             System.out.println("Key: "+player.getKey() + " & Value: " + player.getValue());
         }
     }
+
 
     public void onStartGameClick(View v)
     {
@@ -162,7 +167,7 @@ public class ReactionTest extends AppCompatActivity {
         }
         else
         {
-            highscore.put(player.getName(), showStatistics());
+            highscore.put(showStatistics(), player.getName());
             new ResultPoster(namePlayer, String.valueOf(m_playCounter));
         }
     }
