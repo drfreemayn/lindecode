@@ -26,7 +26,6 @@ public class ResultPoster {
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
             out = new BufferedOutputStream(urlConnection.getOutputStream());
-            System.out.println("URL3 " + out);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
             writer.flush();

@@ -13,8 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ReactionTest extends AppCompatActivity {
 
+    HashMap<String, String> highscore = new HashMap<>();
+    Player player;
     EditText playerName;
     Button startButton, restartButton, stopButton, scoreboardButton;
     ImageView santaImg;
@@ -28,7 +34,7 @@ public class ReactionTest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        player = new Player();
         setContentView(R.layout.start_reaction_game);
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
@@ -58,19 +64,19 @@ public class ReactionTest extends AppCompatActivity {
 
         entriesLayout = findViewById(R.id.entriesLayout);
 
-
-
         int size = 5; // total number of TextViews to add
         TextView[] tv = new TextView[size];
-        for (int i = 0; i < size; i++)
-        {
+
+        int i = 0;
+        for (Map.Entry player : highscore.entrySet()) {
             TextView temp = new TextView(this);
             temp.setTextSize(20);
             temp.setTextColor(0xFF288F11);
-            String entry = String.valueOf(i +1) + ". " + "Sniddan" + " : " + String.valueOf(123) + " ms";
+            String entry = String.valueOf(i +1) + ". " + player.getKey() + " : " + player.getValue() + " ms";
             temp.setText(entry);
             entriesLayout.addView(temp);
             tv[i] = temp;
+            System.out.println("Key: "+player.getKey() + " & Value: " + player.getValue());
         }
     }
 
@@ -78,6 +84,7 @@ public class ReactionTest extends AppCompatActivity {
     {
         playerName = findViewById(R.id.playerText);
         namePlayer = playerName.getText().toString();
+        player.setName(namePlayer);
 
         MediaPlayer santaSound = MediaPlayer.create(ReactionTest.this, R.raw.santa_sound);
         santaSound.start();
@@ -119,7 +126,7 @@ public class ReactionTest extends AppCompatActivity {
         m_randSanta.start(500, m_width, m_height);
     }
 
-    public void showStatistics()
+    public String showStatistics()
     {
         float avgReactionTime = ((float) m_totalReactionTime) / m_playCounter;
         String time = namePlayer + ", your average reaction time is " + String.valueOf(avgReactionTime) + " milliseconds!";
@@ -138,6 +145,7 @@ public class ReactionTest extends AppCompatActivity {
 
         m_playCounter = 0;
         m_totalReactionTime = 0;
+        return   String.valueOf(avgReactionTime);
     }
 
     public void hitTheSanta(View v){
@@ -154,8 +162,8 @@ public class ReactionTest extends AppCompatActivity {
         }
         else
         {
+            highscore.put(player.getName(), showStatistics());
             new ResultPoster(namePlayer, String.valueOf(m_playCounter));
-            showStatistics();
         }
     }
 }
